@@ -4,9 +4,9 @@ import { useState } from 'react';
 const server = process.env.server;
 
 Home.getInitialProps = async function () {
-
   const response = await fetch(`${server}/api/birthday`);
-  return await response.json();
+  var result = await response.json();
+  return result;
 };
 
 export default function Home({ CosmoData }) {
@@ -15,11 +15,12 @@ export default function Home({ CosmoData }) {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [rerender, setRerender] = useState(false);
-
+  const [data, setData] = useState(CosmoData);
 
   async function getItems() {
     const response = await fetch(`${server}/api/birthday`);
-    return await response.json();
+    var result = await response.json();
+    return result;
   }
 
   async function handleDelete(id) {
@@ -28,12 +29,17 @@ export default function Home({ CosmoData }) {
       method: 'DELETE',
     });
     setRerender(!rerender);
+
+    if (response.ok) { // remove from DOM
+      const element = document.getElementById(id.id);
+      element.remove();
+    }
+
     return response;
   }
 
   async function handleCreate() {
     const entry = { name: name, year: year, key: month + '-' + day }
-    console.log(entry);
 
     const response = await fetch(`${server}/api/birthday`, {
       method: 'PUT',
@@ -42,6 +48,12 @@ export default function Home({ CosmoData }) {
       },
       body: JSON.stringify(entry)
     });
+
+    if (response.ok) { // if HTTP-status is 200-299
+      var items = await getItems();
+      setData(items.CosmoData);
+    }
+
     return response;
   }
 
@@ -56,8 +68,8 @@ export default function Home({ CosmoData }) {
       <button onClick={handleCreate}>Create</button>
       <table>
         <tbody>
-          {CosmoData.map(({ id, name, key, year, _rid }) => (
-            <tr key={id}>
+          {data.map(({ id, name, key, year, _rid }) => (
+            <tr id={id} key={id}>
               <td>{name}</td>
               <td>{key}</td>
               <td>{year}</td>
