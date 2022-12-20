@@ -1,13 +1,15 @@
 const CosmosClient = require("@azure/cosmos").CosmosClient;
 import { useState } from 'react';
 
+const server = process.env.server;
+
 Home.getInitialProps = async function () {
-  const response = await fetch('http://localhost:3000/api/birthday');
+
+  const response = await fetch(`${server}/api/birthday`);
   return await response.json();
 };
 
 export default function Home({ CosmoData }) {
-
   const [name, setName] = useState("");
   const [year, setYear] = useState("1980");
   const [month, setMonth] = useState("");
@@ -16,13 +18,13 @@ export default function Home({ CosmoData }) {
 
 
   async function getItems() {
-    const response = await fetch('http://localhost:3000/api/birthday');
+    const response = await fetch(`${server}/api/birthday`);
     return await response.json();
   }
 
   async function handleDelete(id) {
     console.log(id.id);
-    const response = await fetch('http://localhost:3000/api/birthday?id=' + id.id, {
+    const response = await fetch(`${server}/api/birthday?id=` + id.id, {
       method: 'DELETE',
     });
     setRerender(!rerender);
@@ -33,7 +35,7 @@ export default function Home({ CosmoData }) {
     const entry = { name: name, year: year, key: month + '-' + day }
     console.log(entry);
 
-    const response = await fetch('http://localhost:3000/api/birthday', {
+    const response = await fetch(`${server}/api/birthday`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -55,7 +57,7 @@ export default function Home({ CosmoData }) {
       <table>
         <tbody>
           {CosmoData.map(({ id, name, key, year, _rid }) => (
-            <tr>
+            <tr key={id}>
               <td>{name}</td>
               <td>{key}</td>
               <td>{year}</td>

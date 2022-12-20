@@ -1,7 +1,9 @@
 const CosmosClient = require("@azure/cosmos").CosmosClient;
-import config from "../../config";
 
-const { endpoint, key, database, container } = config;
+const endpoint = process.env.endpoint;
+const key = process.env.key;
+const database = process.env.database;
+const container = process.env.container;
 
 const client = new CosmosClient({ endpoint, key });
 
