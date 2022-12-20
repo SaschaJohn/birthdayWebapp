@@ -59,7 +59,9 @@ export default function Home({ CosmoData }) {
 
   return (
     <div>
-      <h2>Birthdays</h2>
+      <h1 className="text-3xl font-bold underline">
+        Birthdays
+      </h1>
 
       <label htmlFor="name">Name:</label><input id="name" value={name} onChange={(e) => setName(e.target.value)}></input>
       <label htmlFor="month">Month:</label><input id="month" value={month} onChange={(e) => setMonth(e.target.value)}></input>
