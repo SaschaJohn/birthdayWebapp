@@ -1,7 +1,7 @@
 const CosmosClient = require("@azure/cosmos").CosmosClient;
 import { useState } from 'react';
 
-const server = process.env.server;
+const server = process.env.APPSETTING_server;
 
 Home.getInitialProps = async function () {
   const response = await fetch(`${server}/api/birthday`);
@@ -59,7 +59,7 @@ export default function Home({ CosmoData }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">
+      <h1 className="text-3xl font-bold">
         Birthdays
       </h1>
 
@@ -67,7 +67,7 @@ export default function Home({ CosmoData }) {
       <label htmlFor="month">Month:</label><input id="month" value={month} onChange={(e) => setMonth(e.target.value)}></input>
       <label htmlFor="day">Day:</label><input id="day" value={day} onChange={(e) => setDay(e.target.value)}></input>
       <label htmlFor="number">Year:</label><input id="number" type="number" value={year} onChange={(e) => setYear(e.target.value)}></input>
-      <button onClick={handleCreate}>Create</button>
+      <button className="inline-block px-4 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onClick={handleCreate}>Create</button>
       <table>
         <tbody>
           {data.map(({ id, name, key, year, _rid }) => (
@@ -75,7 +75,7 @@ export default function Home({ CosmoData }) {
               <td>{name}</td>
               <td>{key}</td>
               <td>{year}</td>
-              <td><button onClick={() => handleDelete({ id })}>Delete</button></td>
+              <td><button type="button" className="inline-block px-4 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onClick={() => handleDelete({ id })}>Delete</button></td>
             </tr>
           ))}
         </tbody>
