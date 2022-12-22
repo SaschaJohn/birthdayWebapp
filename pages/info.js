@@ -6,7 +6,7 @@ Home.getInitialProps = async function (ctx) {
 
   const response = await fetch(`${server}/api/info`, {
     headers: {
-      Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-access-token"]
+      Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
     }
   });
 
