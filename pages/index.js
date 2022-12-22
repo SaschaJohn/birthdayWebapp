@@ -4,7 +4,11 @@ import { useState } from 'react';
 const server = process.env.APPSETTING_server;
 
 Home.getInitialProps = async function () {
-  const response = await fetch(`${server}/api/birthday`);
+  const response = await fetch(`${server}/api/birthday`, {
+    headers: {
+      Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+    }
+  });
   var result = await response.json();
   return result;
 };
@@ -18,7 +22,11 @@ export default function Home({ CosmoData }) {
   const [data, setData] = useState(CosmoData);
 
   async function getItems() {
-    const response = await fetch(`${server}/api/birthday`);
+    const response = await fetch(`${server}/api/birthday`, {
+      headers: {
+        Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+      }
+    });
     var result = await response.json();
     return result;
   }
@@ -27,6 +35,9 @@ export default function Home({ CosmoData }) {
     console.log(id.id);
     const response = await fetch(`${server}/api/birthday?id=` + id.id, {
       method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+      }
     });
     setRerender(!rerender);
 
@@ -44,7 +55,10 @@ export default function Home({ CosmoData }) {
     const response = await fetch(`${server}/api/birthday`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        headers: {
+          Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+        }
       },
       body: JSON.stringify(entry)
     });
