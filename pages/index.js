@@ -24,7 +24,7 @@ export default function Home({ CosmoData }) {
   const [data, setData] = useState(CosmoData);
 
   async function getItems() {
-    const response = await fetch(`${server}/api/birthday`, {
+    const response = await fetch('/api/birthday', {
       headers: {
         Authorization: 'Bearer ' + header
       }
@@ -35,7 +35,7 @@ export default function Home({ CosmoData }) {
 
   async function handleDelete(id) {
     console.log(id.id);
-    const response = await fetch(`${server}/api/birthday?id=` + id.id, {
+    const response = await fetch('/api/birthday?id=' + id.id, {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + header
