@@ -54,7 +54,7 @@ export default function Home({ CosmoData }) {
   async function handleCreate() {
     const entry = { name: name, year: year, key: month + '-' + day }
 
-    const response = await fetch(`${server}/api/birthday`, {
+    const response = await fetch('/api/birthday', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
