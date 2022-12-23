@@ -2,11 +2,13 @@ const CosmosClient = require("@azure/cosmos").CosmosClient;
 import { useState } from 'react';
 
 const server = process.env.APPSETTING_server;
+var header;
 
 Home.getInitialProps = async function (ctx) {
+  header = ctx.req.headers["x-ms-token-aad-id-token"];
   const response = await fetch(`${server}/api/birthday`, {
     headers: {
-      Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+      Authorization: 'Bearer ' + header
     }
   });
   var result = await response.json();
@@ -24,7 +26,7 @@ export default function Home({ CosmoData }) {
   async function getItems() {
     const response = await fetch(`${server}/api/birthday`, {
       headers: {
-        Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+        Authorization: 'Bearer ' + header
       }
     });
     var result = await response.json();
@@ -36,7 +38,7 @@ export default function Home({ CosmoData }) {
     const response = await fetch(`${server}/api/birthday?id=` + id.id, {
       method: 'DELETE',
       headers: {
-        Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+        Authorization: 'Bearer ' + header
       }
     });
     setRerender(!rerender);
@@ -57,7 +59,7 @@ export default function Home({ CosmoData }) {
       headers: {
         'Content-Type': 'application/json',
         headers: {
-          Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
+          Authorization: 'Bearer ' + header
         }
       },
       body: JSON.stringify(entry)
