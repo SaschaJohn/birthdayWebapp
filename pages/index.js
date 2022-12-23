@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const server = process.env.APPSETTING_server;
 
-Home.getInitialProps = async function () {
+Home.getInitialProps = async function (ctx) {
   const response = await fetch(`${server}/api/birthday`, {
     headers: {
       Authorization: 'Bearer ' + ctx.req.headers["x-ms-token-aad-id-token"]
